@@ -30,12 +30,16 @@ const App = () => {
   // user login
   const handleLogin = async (event) => {
     event.preventDefault()
-    const user = await loginService.login({username, password})
-    setUser(user)
-    window.localStorage.setItem("loggedUser", JSON.stringify(user))
-    blogService.setToken(user.token)
-    setUsername("")
-    setPassword("")
+    try {
+      const user = await loginService.login({username, password})
+      setUser(user)
+      window.localStorage.setItem("loggedUser", JSON.stringify(user))
+      blogService.setToken(user.token)
+      setUsername("")
+      setPassword("")
+    } catch(error) {
+      window.alert("Wront credentials")
+    }
   }
 
   // user logout
