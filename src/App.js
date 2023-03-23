@@ -1,14 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
-import BlogForm from './components/BlogForm'
-import Togglable from './components/Togglable'
-import blogService from './services/blogs'
+import Login from "./components/Login"
+import Blog from "./components/Blog"
+import BlogForm from "./components/BlogForm"
+import Togglable from "./components/Togglable"
+import blogService from "./services/blogs"
 import loginService from "./services/login"
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
   const [user, setUser] = useState(null)
 
   const blogFormRef = useRef()
@@ -31,17 +30,13 @@ const App = () => {
   }, [])
 
   // user login
-  const handleLogin = async (event) => {
-    event.preventDefault()
+  const login = async (credentials) => {
     try {
-      const user = await loginService.login({username, password})
+      const user = await loginService.login(credentials)
       setUser(user)
       window.localStorage.setItem("loggedUser", JSON.stringify(user))
-      blogService.setToken(user.token)
-      setUsername("")
-      setPassword("")
     } catch(error) {
-      window.alert("Wront credentials")
+      window.alert("Wrong credentials")
     }
   }
 
@@ -61,18 +56,9 @@ const App = () => {
 
   if (user === null) {
     return (
-      <form onSubmit={handleLogin}>
-        <h1>Log in to application</h1>
-        <div>
-          username
-          <input type={"text"} value={username} onChange={({target}) => {setUsername(target.value)}} />
-        </div>
-        <div>
-          password
-          <input type={"password"} value={password} onChange={({target}) => {setPassword(target.value)}} />
-        </div>
-        <button type="submit">login</button>
-      </form>
+      <Togglable buttonLabel={"login"}>
+        <Login login={login} />
+      </Togglable>
     )
   } else {
     return (
