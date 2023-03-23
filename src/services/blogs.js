@@ -1,6 +1,6 @@
-import axios from 'axios'
+import axios from "axios"
 
-const baseUrl = '/api/blogs'
+const baseUrl = "/api/blogs"
 
 // handle token
 let token = null
@@ -34,5 +34,4 @@ const remove = (id) => {
   return axios.delete(`${baseUrl}/${id}`, config).then(res => res.data)
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default { getAll, create, update, remove, setToken }
