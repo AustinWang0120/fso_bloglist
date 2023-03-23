@@ -54,6 +54,13 @@ const App = () => {
     setBlogs(blogs.concat(savedBlog))
   }
 
+  // add a like
+  const addLike = async (blog) => {
+    const newBlog = { ...blog, likes: blog.likes + 1 }
+    const updatedBlog = await blogService.update(blog.id, newBlog)
+    setBlogs(blogs.map(blog => blog.id === updatedBlog.id ? updatedBlog : blog))
+  }
+
   if (user === null) {
     return (
       <Togglable buttonLabel={"login"}>
@@ -69,7 +76,7 @@ const App = () => {
           <BlogForm createBlog={createBlog} />
         </Togglable>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} addLike={addLike} />
         )}
       </div>
     )
