@@ -24,7 +24,6 @@ const App = () => {
           return 0
         }
       })
-      console.log(blogs)
       setBlogs(blogs)
     })
   }, [])
