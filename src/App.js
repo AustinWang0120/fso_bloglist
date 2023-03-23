@@ -14,9 +14,19 @@ const App = () => {
 
   // fetch blogs from database
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
+    blogService.getAll().then(blogs => {
+      blogs.sort((prev, next) => {
+        if (prev.likes < next.likes) {
+          return 1
+        } else if (prev.likes > next.likes) {
+          return -1
+        } else {
+          return 0
+        }
+      })
+      console.log(blogs)
+      setBlogs(blogs)
+    })
   }, [])
 
   // fetch user from localStorage
