@@ -27,5 +27,12 @@ const update = (id, newBlog) => {
   return axios.put(`${baseUrl}/${id}`, newBlog, config).then(res => res.data)
 }
 
+const remove = (id) => {
+  const config = {
+    headers: { Authorization: token }
+  }
+  return axios.delete(`${baseUrl}/${id}`, config).then(res => res.data)
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, update, setToken }
+export default { getAll, create, update, remove, setToken }
