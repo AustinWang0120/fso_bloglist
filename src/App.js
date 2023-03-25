@@ -87,7 +87,8 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
-        <p>Hi, {user.username}!<button onClick={handleLogout}>logout</button></p>
+        <p>Hi, {user.name}!</p>
+        <button onClick={handleLogout}>logout</button>
         <Togglable buttonLabel={"new blog"} ref={blogFormRef}>
           <BlogForm createBlog={createBlog} />
         </Togglable>

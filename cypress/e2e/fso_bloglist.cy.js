@@ -12,7 +12,7 @@ describe("Blog app", function() {
     beforeEach(function() {
       const rootUser = {
         name: "Superuser",
-        username: "root",
+        username: "test",
         password: "password"
       }
       cy.request("POST", `${Cypress.env("BACKEND")}/users`, rootUser)
@@ -21,7 +21,7 @@ describe("Blog app", function() {
 
     it("succeeds with correct credentials", function() {
       cy.contains("login").click()
-      cy.get("#username").type("root")
+      cy.get("#username").type("test")
       cy.get("#password").type("password")
       cy.get("#login-button").click()
       cy.contains("Hi, Superuser!")
@@ -29,10 +29,28 @@ describe("Blog app", function() {
 
     it("fails with wrong credentials", function() {
       cy.contains("login").click()
-      cy.get("#username").type("root")
+      cy.get("#username").type("test")
       cy.get("#password").type("fake")
       cy.get("#login-button").click()
       cy.get("html").should("not.contain", "Hi, Superuser!")
+    })
+
+    describe("when logged in", function() {
+      beforeEach(function() {
+        cy.contains("login").click()
+        cy.get("#username").type("test")
+        cy.get("#password").type("password")
+        cy.get("#login-button").click()
+      })
+
+      it("a blog can be created", function() {
+        cy.contains("button", "new blog").click()
+        cy.get("#input-title").type("a blog created by cypress")
+        cy.get("#input-author").type("cypress")
+        cy.get("#input-url").type("404.com")
+        cy.get("#input-button").click()
+        
+      })
     })
   })
 })
